@@ -1,7 +1,8 @@
-package com.mygdx.game;
+package com.gui.menu;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -17,11 +18,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.gui.constructor.ConstructorScreen;
+import com.gui.game.GameScreen;
+import com.mygdx.game.PlatformBuilder;
 
 import javax.swing.text.TabableView;
 import java.awt.*;
 
-public class MainMenu extends ApplicationAdapter {
+public class MainMenuScreen implements Screen {
+
+	private PlatformBuilder game;
 	private SpriteBatch batch;
 	private BitmapFont frames;
 	private Label title;
@@ -39,8 +45,11 @@ public class MainMenu extends ApplicationAdapter {
 	private float sinceChange;
 	private long lastTimeCounted;
 
-	
-	@Override
+	public MainMenuScreen(PlatformBuilder game){
+		this.game = game;
+		create();
+	}
+
 	public void create () {
 		batch = new SpriteBatch();
 
@@ -89,13 +98,23 @@ public class MainMenu extends ApplicationAdapter {
 	}
 
 	@Override
-	public void render () {
+	public void render (float delta) {
 		Gdx.gl.glClearColor(0,1,1,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 		framesLabel.setText("FPS: "+frameRate);
 		stage.draw();
 		batch.end();
+
+		if(createButton.isPressed()){
+			game.setScreen(new ConstructorScreen(game));
+			dispose();
+		}
+		else if(playButton.isPressed()){
+			game.setScreen(new GameScreen(game));
+			dispose();
+		}
+
 		update();
 	}
 
@@ -109,7 +128,7 @@ public class MainMenu extends ApplicationAdapter {
 			frameRate = Gdx.graphics.getFramesPerSecond();
 		}
 	}
-	
+
 	@Override
 	public void dispose () {
 		batch.dispose();
@@ -117,6 +136,11 @@ public class MainMenu extends ApplicationAdapter {
 		stage.dispose();
 	}
 
+	@Override
+	public void show() {
+
+	}
+	
 	@Override
 	public void resize(int width, int height) {
 	}
@@ -127,5 +151,10 @@ public class MainMenu extends ApplicationAdapter {
 
 	@Override
 	public void resume() {
+	}
+
+	@Override
+	public void hide() {
+
 	}
 }
