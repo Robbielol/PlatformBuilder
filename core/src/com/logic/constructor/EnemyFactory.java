@@ -1,4 +1,4 @@
-package com.Logic.Constructor;
+package com.logic.constructor;
 
 import com.world.enemy.Enemy;
 import com.world.obstacle.Obstacle;
