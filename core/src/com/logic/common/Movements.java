@@ -1,26 +1,29 @@
 package com.logic.common;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 public class Movements {
 
-    private float gravity = -1000;
-
-    private boolean isJumping;
+    private boolean isJumping = false;
+    private boolean orientation = true;
     private Vector2 position;
     private Vector2 velocity;
     private Vector2 acceleration;
 
-    public Movements() {
+    private TextureRegion player;
 
+    public Movements(TextureRegion player) {
+        this.player = player;
         position = new Vector2();
         velocity = new Vector2();
+        float gravity = -1000;
         acceleration = new Vector2(0, gravity);
-
     }
 
-    void update(){
+    public void update(){
         float dt = Gdx.graphics.getDeltaTime();
         velocity.add(acceleration.x * dt, acceleration.y * dt);
         position.add(velocity.x * dt, velocity.y * dt);
@@ -28,25 +31,46 @@ public class Movements {
         if (position.y <= 0){ // hit ground, so bounce
             position.y = 0;
             isJumping = false;
+            player.setTexture(new Texture("sprites/CharSprite.png"));
         }
         if ((position.x <= 0)){
             position.x = 0;
         }
-//        else if (position.x >= Gdx.graphics.getWidth() - texture.getRegionWidth()/2){
-//            position.x = Gdx.graphics.getWidth() - texture.getRegionWidth()/2;
-//        }
+        if (position.x >= Gdx.graphics.getWidth() - player.getRegionWidth()/2){
+            position.x = Gdx.graphics.getWidth() - player.getRegionWidth()/2;
+        }
+
     }
 
-    private void jump(){
+    public void jump(){
+        player.setTexture(new Texture("sprites/Jumping.png"));
         velocity.y = 500;
         isJumping = true;
     }
 
-    private void moveRight() {
+    public void moveRight() {
         position.x += 5;
+        player.flip(orientation,false);
+        orientation = true;
+        player.flip(true,false);
     }
 
-    private void moveLeft() {
+    public void moveLeft() {
         position.x += -5;
+        player.flip(orientation,false);
+        orientation = false;
+        player.flip(false,false);
+    }
+
+    public TextureRegion getPlayer() {
+        return player;
+    }
+
+    public Vector2 getPosition() {
+        return position;
+    }
+
+    public boolean isJumping() {
+        return isJumping;
     }
 }
