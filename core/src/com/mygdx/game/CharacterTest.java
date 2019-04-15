@@ -3,17 +3,25 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.logic.common.Movements;
+import com.logic.strategy.Context;
+import com.logic.strategy.JumpHigher;
+import com.logic.strategy.MoveFaster;
 
 public class CharacterTest extends ApplicationAdapter {
+
+
+    private boolean pressOnce = false;
     private SpriteBatch batch;
     private Texture background;
     private TextureRegion enemy;
-    private Movements moveTest;
+    private Movements movements;
 
     @Override
     public void create () {
@@ -22,35 +30,41 @@ public class CharacterTest extends ApplicationAdapter {
 
         TextureRegion player = new TextureRegion(new Texture("sprites/CharSprite.png"));
         enemy = new TextureRegion(new Texture("sprites/goomba.gif"));
-        moveTest = new Movements(player);
+        movements = new Movements(player);
+        Sprite sprite = new Sprite(new Texture("sprites/goomba.gif"));
     }
 
     @Override
     public void render () {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // don't forget to clear screen
+        float scaleFactor = (float) 0.25;
 
-        if (Gdx.input.isKeyPressed(Input.Keys.W) && !moveTest.isJumping()) {
-            moveTest.jump();
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        if (Gdx.input.isKeyPressed(Input.Keys.W) && !movements.isJumping()) {
+            movements.jump();
+            pressOnce = false;
         }
         if(Gdx.input.isKeyPressed(Input.Keys.D)) {
-            moveTest.moveRight();
+            movements.moveRight();
         }
         if(Gdx.input.isKeyPressed(Input.Keys.A)) {
-            moveTest.moveLeft();
+            movements.moveLeft();
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.S) && !pressOnce) {
+            pressOnce = true;
+            Context context = new Context(new JumpHigher());
+            movements.setGravity(context.executeStrategy(movements.getGravity()));
+            movements.setPowerUpUsed(false);
         }
 
-//        if (Gdx.input.isKeyPressed(Input.Keys.S)){
-//            Context context = new Context(new JumpHigher());
-//        }
 
-        moveTest.update();
+
+        movements.update();
 
         batch.begin();
-        float scaleFactor = (float) 0.25;
         batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(moveTest.getPlayer(), moveTest.getPosition().x, moveTest.getPosition().y, moveTest.getPlayer().getRegionWidth() * scaleFactor, moveTest.getPlayer().getRegionHeight() * scaleFactor);
+        batch.draw(movements.getPlayer(), movements.getPosition().x, movements.getPosition().y, movements.getPlayer().getRegionWidth() * scaleFactor, movements.getPlayer().getRegionHeight() * scaleFactor);
         batch.draw(enemy, 300, 0, enemy.getRegionWidth() * scaleFactor, enemy.getRegionHeight() * scaleFactor);
-
         batch.end();
     }
 

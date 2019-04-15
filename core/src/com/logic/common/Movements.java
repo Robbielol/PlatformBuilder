@@ -9,20 +9,23 @@ public class Movements {
 
     private boolean isJumping = false;
     private boolean orientation = true;
+
+    private boolean powerUpUsed = true;
+
+    private float gravity = -1000;
+
     private Vector2 position;
+
     private Vector2 velocity;
+
     private Vector2 acceleration;
-
     private TextureRegion player;
-
     public Movements(TextureRegion player) {
         this.player = player;
         position = new Vector2();
         velocity = new Vector2();
-        float gravity = -1000;
         acceleration = new Vector2(0, gravity);
     }
-
     public void update(){
         float dt = Gdx.graphics.getDeltaTime();
         velocity.add(acceleration.x * dt, acceleration.y * dt);
@@ -32,6 +35,9 @@ public class Movements {
             position.y = 0;
             isJumping = false;
             player.setTexture(new Texture("sprites/CharSprite.png"));
+            if(powerUpUsed){
+                setGravity(-1000);
+            }
         }
         if ((position.x <= 0)){
             position.x = 0;
@@ -46,6 +52,7 @@ public class Movements {
         player.setTexture(new Texture("sprites/Jumping.png"));
         velocity.y = 500;
         isJumping = true;
+        powerUpUsed = true;
     }
 
     public void moveRight() {
@@ -72,5 +79,18 @@ public class Movements {
 
     public boolean isJumping() {
         return isJumping;
+    }
+
+    public void setGravity(float gravity) {
+        this.gravity = gravity;
+        acceleration.set(new Vector2(0,this.gravity));
+    }
+
+    public float getGravity() {
+        return gravity;
+    }
+
+    public void setPowerUpUsed(boolean powerUpUsed) {
+        this.powerUpUsed = powerUpUsed;
     }
 }

@@ -2,7 +2,7 @@ package com.logic.strategy;
 
 public class JumpHigher implements Strategy {
     @Override
-    public int doOperation(int value) {
-        return value*3;
+    public float doOperation(float value) {
+        return value + 250;
     }
 }

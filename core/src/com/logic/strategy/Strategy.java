@@ -1,5 +1,5 @@
 package com.logic.strategy;
 
 public interface Strategy {
-    int doOperation(int value);
+    float doOperation(float value);
 }
