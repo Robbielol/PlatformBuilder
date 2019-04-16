@@ -1,4 +1,4 @@
-package com.logic.common;
+package com.logic.constructor.common;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -19,14 +19,25 @@ public class Movements {
     private Vector2 velocity;
 
     private Vector2 acceleration;
+    private MoveRightOnCommand moveRight;
+    private MoveLeftOnCommand moveLeft;
+    private JumpOnCommand jump;
+
     private TextureRegion player;
+
     public Movements(TextureRegion player) {
         this.player = player;
         position = new Vector2();
         velocity = new Vector2();
+        moveRight = new MoveRightOnCommand(player);
+        moveLeft = new MoveLeftOnCommand(player);
+        jump = new JumpOnCommand(player);
+        float gravity = -1000;
         acceleration = new Vector2(0, gravity);
     }
-    public void update(){
+
+    public void update()
+    {
         float dt = Gdx.graphics.getDeltaTime();
         velocity.add(acceleration.x * dt, acceleration.y * dt);
         position.add(velocity.x * dt, velocity.y * dt);
@@ -48,25 +59,25 @@ public class Movements {
 
     }
 
-    public void jump(){
-        player.setTexture(new Texture("sprites/Jumping.png"));
-        velocity.y = 500;
-        isJumping = true;
+    public void jump()
+    {
+        jump.executeMovement(position.x, orientation);
+        velocity.y = jump.getVelocity();
+        isJumping =true;
         powerUpUsed = true;
     }
 
-    public void moveRight() {
-        position.x += 5;
-        player.flip(orientation,false);
+    public void moveRight()
+    {
+        moveRight.executeMovement(position.x, orientation);
         orientation = true;
-        player.flip(true,false);
+        position.x = moveRight.getPosition();
     }
 
     public void moveLeft() {
-        position.x += -5;
-        player.flip(orientation,false);
+        moveLeft.executeMovement(position.x, orientation);
         orientation = false;
-        player.flip(false,false);
+        position.x = moveLeft.getPosition();
     }
 
     public TextureRegion getPlayer() {
