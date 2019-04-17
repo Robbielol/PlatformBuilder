@@ -19,7 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.game.PlatformBuilder;
-import com.world.obstacle.RectangleObstacle;
+import com.world.objects.RectangleObstacle;
 
 public class ConstructorScreen implements Screen {
 

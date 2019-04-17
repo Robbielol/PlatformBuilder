@@ -14,7 +14,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.logic.common.InputController;
 import com.logic.constructor.common.Movements;
-import com.world.obstacle.RectangleObstacle;
+import com.world.objects.RectangleObstacle;
 import com.world.player.Player;
 
 
