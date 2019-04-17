@@ -7,24 +7,21 @@ import com.logic.constructor.common.Command;
 import com.mygdx.game.CharacterTest;
 
 public class JumpOnCommand implements Command {
-    private float GRAVITY = -1000;
+
     private final Vector2 velocity = new Vector2();
-    private final Vector2 acceleration = new Vector2();
-    private final Vector2 position = new Vector2();
-    private Movements move;
-    private Boolean isJumping = false;
+
+    private float jumpHeight = 500;
+
     private TextureRegion player;
 
     public JumpOnCommand(TextureRegion player)
     {
         this.player = player;
     }
-
     public void executeMovement(float pos, boolean orientation)
     {
         player.setTexture(new Texture("sprites/Jumping.png"));
-        velocity.y = 500;
-        isJumping = true;
+        velocity.y = jumpHeight;
     }
 
     @Override
@@ -36,11 +33,18 @@ public class JumpOnCommand implements Command {
     @Override
     public void getOrientation(Boolean isJumping)
     {
-        this.isJumping = isJumping;
     }
 
     public float getVelocity()
     {
         return velocity.y;
+    }
+
+    public void setJumpHeight(float jumpHeight) {
+        this.jumpHeight = jumpHeight;
+    }
+
+    public float getJumpHeight() {
+        return jumpHeight;
     }
 }

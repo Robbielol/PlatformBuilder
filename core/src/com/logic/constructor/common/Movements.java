@@ -47,7 +47,7 @@ public class Movements {
             isJumping = false;
             player.setTexture(new Texture("sprites/CharSprite.png"));
             if(powerUpUsed){
-                setGravity(-1000);
+                jump.setJumpHeight(500);
             }
         }
         if ((position.x <= 0)){
@@ -92,13 +92,16 @@ public class Movements {
         return isJumping;
     }
 
-    public void setGravity(float gravity) {
-        this.gravity = gravity;
-        acceleration.set(new Vector2(0,this.gravity));
+    public void increaseJumpHeight(float jumpHeight) {
+        jump.setJumpHeight(jumpHeight);
     }
 
     public float getGravity() {
         return gravity;
+    }
+
+    public float getJumpHeight(){
+        return jump.getJumpHeight();
     }
 
     public void setPowerUpUsed(boolean powerUpUsed) {
