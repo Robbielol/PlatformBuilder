@@ -53,7 +53,7 @@ public class CharacterTest extends ApplicationAdapter {
         if(Gdx.input.isKeyPressed(Input.Keys.S) && !pressOnce) {
             pressOnce = true;
             Context context = new Context(new JumpHigher());
-            moveTest.setGravity(context.executeStrategy(moveTest.getGravity()));
+            //moveTest.setGravity(context.executeStrategy(moveTest.getGravity()));
             moveTest.setPowerUpUsed(false);
         }
 

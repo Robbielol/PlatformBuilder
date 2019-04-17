@@ -106,7 +106,7 @@ public class ConstructorScreen implements Screen {
 
             @Override
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                final RectangleObstacle rect = new RectangleObstacle("/home/brian/libgdx/PlatformBuilder/core/assets/badlogic.jpg",
+                final RectangleObstacle rect = new RectangleObstacle("badlogic.jpg",
                         new Vector2(50, 50), new Vector2(75, 75));
 
                 stage.addActor(rect);
