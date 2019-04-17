@@ -3,101 +3,72 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
+import com.logic.constructor.common.Movements;
+import com.logic.strategy.Context;
+import com.logic.strategy.JumpHigher;
+import com.logic.strategy.MoveFaster;
 
-public class CharacterTest extends ApplicationAdapter{
+
+public class CharacterTest extends ApplicationAdapter {
+
+    private boolean pressOnce = false;
     private SpriteBatch batch;
     private Texture background;
-    private TextureRegion texture;
-    private Movement move;
-    private Boolean isJumping = false;
-    private Boolean orientation = true;
-
+    private TextureRegion enemy;
+    private Movements moveTest;
 
     @Override
     public void create () {
         batch = new SpriteBatch();
-        System.out.println(Gdx.graphics.getWidth());
-        float w = Gdx.graphics.getWidth();
-        float h = Gdx.graphics.getHeight();
         background = new Texture("glassy/raw/white.png");
 
-        texture = new TextureRegion(new Texture("sprites/CharSprite.png"));
-
-        move = new Movement();
+        TextureRegion player = new TextureRegion(new Texture("sprites/CharSprite.png"));
+        enemy = new TextureRegion(new Texture("sprites/goomba.gif"));
+        moveTest = new Movements(player);
+        Sprite sprite = new Sprite(new Texture("sprites/goomba.gif"));
     }
 
     @Override
     public void render () {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // don't forget to clear screen
+        float scaleFactor = (float) 0.25;
 
-        if (Gdx.input.isKeyPressed(Input.Keys.W) && !isJumping) {
-            move.velocity.y = 500;
-            isJumping = true;
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        if (Gdx.input.isKeyPressed(Input.Keys.W) && !moveTest.isJumping()) {
+            moveTest.jump();
+            pressOnce = false;
         }
         if(Gdx.input.isKeyPressed(Input.Keys.D)) {
-            move.position.x += 5;
-            texture.flip(orientation,false);
-            orientation = true;
-            texture.flip(orientation,false);
+            moveTest.moveRight();
         }
         if(Gdx.input.isKeyPressed(Input.Keys.A)) {
-            move.position.x += -5;
-            texture.flip(orientation,false);
-            orientation = false;
-            texture.flip(orientation,false);
-
+            moveTest.moveLeft();
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.S) && !pressOnce) {
+            pressOnce = true;
+            Context context = new Context(new JumpHigher());
+            moveTest.setGravity(context.executeStrategy(moveTest.getGravity()));
+            moveTest.setPowerUpUsed(false);
         }
 
-        move.update();
-
-
-        batch.begin();
-        float scaleFactor = (float) 0.25;
-        batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(texture, move.position.x, move.position.y, texture.getRegionWidth() * scaleFactor, texture.getRegionHeight() * scaleFactor);
-
-        batch.end();
-    }
-
-    public class Movement {
-
-        static final float GRAVITY = -1000; // size depends on your world scale
-
-        final Vector2 position = new Vector2();
-        final Vector2 velocity = new Vector2();
-        final Vector2 acceleration = new Vector2(0, GRAVITY);
-
-        void update(){
-            float dt = Gdx.graphics.getDeltaTime();
-            velocity.add(acceleration.x * dt, acceleration.y * dt);
-            position.add(velocity.x * dt, velocity.y * dt);
-
-            if (position.y <= 0){ // hit ground, so bounce
-                position.y = 0;
-                isJumping = false;
-            }
-            if ((position.x <= 0)){
-                position.x = 0;
-            }
-            else if (position.x >= Gdx.graphics.getWidth() - texture.getRegionWidth()/2){
-                position.x = Gdx.graphics.getWidth() - texture.getRegionWidth()/2;
-            }
-        }
-
-//        void changeOrientation(){
-//            if(orientation){
-//                texture.flip(false,false);
-//            }
-//            else{
-//                texture.flip(true,false);
-//            }
+//        if (Gdx.input.isKeyPressed(Input.Keys.S)){
+//            Context context = new Context(new JumpHigher());
 //        }
 
+
+        moveTest.update();
+
+        batch.begin();
+        batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(moveTest.getPlayer(), moveTest.getPosition().x, moveTest.getPosition().y, moveTest.getPlayer().getRegionWidth() * scaleFactor, moveTest.getPlayer().getRegionHeight() * scaleFactor);
+        batch.draw(enemy, 300, 0, enemy.getRegionWidth() * scaleFactor, enemy.getRegionHeight() * scaleFactor);
+        batch.end();
     }
 
     @Override
