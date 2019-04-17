@@ -1,4 +1,4 @@
-package com.world.obstacle;
+package com.world.objects;
 
 public class Square implements WorldObject {
     public void onCollision(){

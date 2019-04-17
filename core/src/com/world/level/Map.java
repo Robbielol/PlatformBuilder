@@ -1,7 +1,6 @@
 package com.world.level;
 
-import com.world.obstacle.RectangleObstacle;
-import com.world.obstacle.WorldObject;
+import com.world.objects.WorldObject;
 
 import java.util.ArrayList;
 
