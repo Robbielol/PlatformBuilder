@@ -19,7 +19,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.game.PlatformBuilder;
+import com.world.objects.Coin;
+import com.world.objects.CoinBox;
 import com.world.objects.RectangleObstacle;
+import com.world.objects.WorldObject;
 
 public class ConstructorScreen implements Screen {
 
@@ -30,14 +33,14 @@ public class ConstructorScreen implements Screen {
     private Stage stage;
     private Table table;
     private TextButton rectButton;
-    private TextButton triButton;
-    private TextButton circButton;
+    private TextButton coinButton;
+    private TextButton coinBoxButton;
     private TextureAtlas buttonAtlas;
     private Skin skin;
     private float frameRate;
     private float sinceChange;
     private long lastTimeCounted;
-    private Array<RectangleObstacle> obstacleArray;
+    private Array<WorldObject> obstacleArray;
 
     public ConstructorScreen(PlatformBuilder game){
         this.game = game;
@@ -66,33 +69,33 @@ public class ConstructorScreen implements Screen {
         rectButton.setTransform(true);
         rectButton.setColor(new Color(4555));
 
-        TextButton.TextButtonStyle triButtonStyle = new TextButton.TextButtonStyle();
-        triButtonStyle.up = skin.getDrawable("button");
-        triButtonStyle.down = skin.getDrawable("button-pressed");
-        triButtonStyle.font = new BitmapFont(Gdx.files.internal("quantum/skin/font-export.fnt"));
-        triButton = new TextButton("Triangle", triButtonStyle);
-        triButton.setTransform(true);
-        triButton.setColor(new Color(4555));
+        TextButton.TextButtonStyle coinButtonStyle = new TextButton.TextButtonStyle();
+        coinButtonStyle.up = skin.getDrawable("button");
+        coinButtonStyle.down = skin.getDrawable("button-pressed");
+        coinButtonStyle.font = new BitmapFont(Gdx.files.internal("quantum/skin/font-export.fnt"));
+        coinButton = new TextButton("Score Coin", coinButtonStyle);
+        coinButton.setTransform(true);
+        coinButton.setColor(new Color(4555));
 
-        TextButton.TextButtonStyle circButtonStyle = new TextButton.TextButtonStyle();
-        circButtonStyle.up = skin.getDrawable("button");
-        circButtonStyle.down = skin.getDrawable("button-pressed");
-        circButtonStyle.font = new BitmapFont(Gdx.files.internal("quantum/skin/font-export.fnt"));
-        circButton = new TextButton("Circle", circButtonStyle);
-        circButton.setTransform(true);
-        circButton.setColor(new Color(4555));
+        TextButton.TextButtonStyle coinBoxButtonStyle = new TextButton.TextButtonStyle();
+        coinBoxButtonStyle.up = skin.getDrawable("button");
+        coinBoxButtonStyle.down = skin.getDrawable("button-pressed");
+        coinBoxButtonStyle.font = new BitmapFont(Gdx.files.internal("quantum/skin/font-export.fnt"));
+        coinBoxButton = new TextButton("Coin Box", coinBoxButtonStyle);
+        coinBoxButton.setTransform(true);
+        coinBoxButton.setColor(new Color(4555));
 
         // Table
         table = new Table();
         table.add(rectButton).left();
         table.row();
-        table.add(triButton).left();
+        table.add(coinButton).left();
         table.row();
-        table.add(circButton).left();
+        table.add(coinBoxButton).left();
         table.setPosition(Gdx.graphics.getWidth()/8, Gdx.graphics.getHeight()-120);
 
         // WorldObject array
-        obstacleArray = new Array<RectangleObstacle>();
+        obstacleArray = new Array<WorldObject>();
 
         // Stage
         stage = new Stage();
@@ -115,7 +118,38 @@ public class ConstructorScreen implements Screen {
 
                 stage.addActor(rect);
                 obstacleArray.add(rect);
-                System.out.println("Touched up");
+            }
+        });
+
+        coinButton.addListener(new ClickListener(){
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+
+            @Override
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                final Coin coin = new Coin(new Vector2(100, 100));
+
+                stage.addActor(coin);
+                obstacleArray.add(coin);
+            }
+        });
+
+        coinBoxButton.addListener(new ClickListener(){
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+
+            @Override
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                final CoinBox box = new CoinBox(new Vector2(100, 100));
+
+                stage.addActor(box);
+                obstacleArray.add(box);
             }
         });
     }
