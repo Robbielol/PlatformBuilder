@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.gui.constructor.ConstructorScreen;
 import com.gui.game.GameScreen;
+import com.mygdx.game.GameWorld;
 import com.mygdx.game.PlatformBuilder;
 
 import javax.swing.text.TabableView;
@@ -111,7 +112,8 @@ public class MainMenuScreen implements Screen {
 			dispose();
 		}
 		else if(playButton.isPressed()){
-			game.setScreen(new GameScreen(game));
+//			game.setScreen(new GameScreen(game));
+			game.setScreen(new GameWorld(game));
 			dispose();
 		}
 
