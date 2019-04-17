@@ -8,10 +8,19 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.game.PlatformBuilder;
+import com.world.obstacle.RectangleObstacle;
+import org.w3c.dom.css.Rect;
+
+import java.util.ArrayList;
 
 public class ConstructorScreen implements Screen {
 
@@ -29,6 +38,7 @@ public class ConstructorScreen implements Screen {
     private float frameRate;
     private float sinceChange;
     private long lastTimeCounted;
+    private Array<RectangleObstacle> obstacleArray;
 
     public ConstructorScreen(PlatformBuilder game){
         this.game = game;
@@ -80,15 +90,35 @@ public class ConstructorScreen implements Screen {
         table.add(triButton).left();
         table.row();
         table.add(circButton).left();
-        BackgroundColor bgCol = new BackgroundColor("images/window2.png");
-        table.setBackground(bgCol);
         table.setPosition(Gdx.graphics.getWidth()/8, Gdx.graphics.getHeight()-120);
+
+        // WorldObject array
+        obstacleArray = new Array<RectangleObstacle>();
 
         // Stage
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         stage.addActor(table);
         stage.addActor(framesLabel);
+
+        // Listeners
+        rectButton.addListener(new ClickListener(){
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+
+            @Override
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                final RectangleObstacle rect = new RectangleObstacle("/home/brian/libgdx/PlatformBuilder/core/assets/badlogic.jpg",
+                        new Vector2(50, 50), new Vector2(75, 75));
+
+                stage.addActor(rect);
+                obstacleArray.add(rect);
+                System.out.println("Touched up");
+            }
+        });
     }
 
     @Override
@@ -102,8 +132,22 @@ public class ConstructorScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         framesLabel.setText("FPS: "+frameRate);
+
+        stage.act();
         stage.draw();
         batch.end();
+
+        // Check for collisions
+        for(int i = 0; i < obstacleArray.size; i++){
+            for(int j = 0; j < obstacleArray.size; j++){
+                if(i != j){
+                    if(obstacleArray.get(i).collidesWith(obstacleArray.get(j))){
+                        obstacleArray.get(i).onCollision(); obstacleArray.get(j).onCollision();
+                    }
+                }
+            }
+        }
+
         update();
     }
 

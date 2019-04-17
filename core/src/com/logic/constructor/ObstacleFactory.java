@@ -1,7 +1,7 @@
 package com.Logic.Constructor;
 
-import com.world.obstacle.Obstacle;
+import com.world.obstacle.WorldObject;
 
 public abstract class ObstacleFactory {
-    abstract Obstacle getObstacle(String obstacleType);
+    abstract WorldObject getObstacle(String obstacleType);
 }

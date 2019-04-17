@@ -1,7 +1,7 @@
 package com.world.obstacle;
 
-public class TriangleObstacle implements Obstacle {
-    public void drawObstacle(){
+public class TriangleObstacle implements WorldObject {
+    public void onCollision(){
         System.out.println("Using Triangle obstacle draw method");
     }
 }
