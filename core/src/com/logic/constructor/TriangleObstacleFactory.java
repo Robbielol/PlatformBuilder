@@ -1,7 +1,7 @@
 package com.Logic.Constructor;
 
-import com.world.obstacle.WorldObject;
-import com.world.obstacle.TriangleObstacle;
+import com.world.objects.WorldObject;
+import com.world.objects.TriangleObstacle;
 
 public class TriangleObstacleFactory extends ObstacleFactory  {
     public WorldObject getObstacle(String obstacleType){

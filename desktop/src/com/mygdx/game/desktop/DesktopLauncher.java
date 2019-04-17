@@ -13,8 +13,8 @@ public class DesktopLauncher {
 		cfg.useGL30 = true;
 		cfg.height = 600;
 		cfg.width = 900;
-//		new LwjglApplication(new PlatformBuilder(), cfg);
-		new LwjglApplication(new CharacterTest(), cfg);
+		new LwjglApplication(new PlatformBuilder(), cfg);
+//		new LwjglApplication(new CharacterTest(), cfg);
 //		new LwjglApplication(new Physics3(), cfg);
 	}
 }
