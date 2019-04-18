@@ -1,4 +1,4 @@
-package com.logic.constructor.common;
+package com.logic.command;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -26,7 +26,8 @@ public class Movements {
     private Player playerObject;
     private TextureRegion player;
 
-    public Movements(TextureRegion player) {
+    public Movements(TextureRegion player)
+    {
         this.player = player;
         position = new Vector2();
         velocity = new Vector2();
@@ -65,7 +66,7 @@ public class Movements {
     {
         jump.executeMovement(position.x, orientation);
         velocity.y = jump.getVelocity();
-        isJumping =true;
+        isJumping = true;
         powerUpUsed = true;
     }
 

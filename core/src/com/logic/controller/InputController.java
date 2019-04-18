@@ -1,4 +1,4 @@
-package com.logic.common;
+package com.logic.controller;
 
 import com.badlogic.gdx.InputProcessor;
 

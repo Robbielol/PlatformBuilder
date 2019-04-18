@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.world.obstacle.RectangleObstacle;
+import com.world.objects.RectangleObstacle;
 
 
 public class Player extends Image {
@@ -56,12 +56,15 @@ public class Player extends Image {
         return playerBounds;
     }
 
-    public boolean collidesWith(Player rect){
+    public boolean collidesWith(Player rect)
+    {
         Rectangle otherBounds = rect.getBounds();
-        if(playerBounds.overlaps(otherBounds)){
+        if(playerBounds.overlaps(otherBounds))
+        {
             return true;
         }
-        if(isColliding){
+        if(isColliding)
+        {
             drawableRegion = new TextureRegionDrawable(new TextureRegion(playerTexture));
             super.setDrawable(drawableRegion);
         }
