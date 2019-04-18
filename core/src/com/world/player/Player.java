@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.world.obstacle.RectangleObstacle;
+import com.world.objects.RectangleObstacle;
 
 
 public class Player extends Image {
@@ -23,7 +23,7 @@ public class Player extends Image {
     private Drawable drawableRegion;
     private Vector2 velocity;
     private Vector2 acceleration;
-
+    private float dt;
     public Player(String playerTexture, Vector2 position, Vector2 size){
         super(new Texture(Gdx.files.internal(playerTexture)));
         this.playerTexture = new Texture(Gdx.files.internal(playerTexture));
@@ -33,7 +33,8 @@ public class Player extends Image {
         isColliding = false;
         playerPosition = position;
         playerSize = size;
-
+        velocity = new Vector2();
+        acceleration = new Vector2(0, -1000);
         playerBounds = new Rectangle(position.x, position.y, size.x, size.y);
         setBounds(position.x, position.y, size.x, size.y);
 
@@ -72,12 +73,12 @@ public class Player extends Image {
     public boolean collidesWith(RectangleObstacle rect){
         Rectangle otherBounds = rect.getBounds();
         if(playerBounds.overlaps(otherBounds)){
-            moveBy(0,otherBounds.getHeight());
+//            moveBy(0,rect.getHeight() + 20);
             return true;
         }
         if(isColliding){
-            drawableRegion = new TextureRegionDrawable(new TextureRegion(playerTexture));
-            super.setDrawable(drawableRegion);
+//            drawableRegion = new TextureRegionDrawable(new TextureRegion(playerTexture));
+//            super.setDrawable(drawableRegion);
         }
         isColliding = false;
         return false;
@@ -94,12 +95,36 @@ public class Player extends Image {
         super.setDrawable(drawableRegion);
     }
 
-    public void update()
-    {
-        float dt = Gdx.graphics.getDeltaTime();
+    public void update() {
+        dt = Gdx.graphics.getDeltaTime();
+
         velocity.add(acceleration.x * dt, acceleration.y * dt);
-        
+//        if(!isColliding)
+//        else {
+//
+//            System.out.println("Moved to 0,0");
+////            isColliding = false;
+//        }
+        if(isColliding){
+//            velocity.add(0,0);
+//            dt = 0;
+//            moveBy(velocity.x * dt, velocity.y * dt);
+            System.out.println("Here");
+//            velocity.y = 0;
+
+            moveBy(0, 0);
+
+        } else {
+            moveBy(velocity.x * dt, velocity.y * dt);
+
+        }
     }
 
-
+    public void jump(){
+        velocity.y = 300;
+        if(isColliding){
+//            velocity.y = 500;
+//            System.out.println("Cannot jump");
+        }
+    }
 }

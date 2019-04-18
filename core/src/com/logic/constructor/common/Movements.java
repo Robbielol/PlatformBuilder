@@ -61,8 +61,7 @@ public class Movements {
 
     }
 
-    public void jump()
-    {
+    public void jump() {
         jump.executeMovement(position.x, orientation);
         velocity.y = jump.getVelocity();
         isJumping =true;
