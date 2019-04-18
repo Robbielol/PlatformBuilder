@@ -8,24 +8,22 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.world.objects.RectangleObstacle;
-
+import com.world.obstacle.RectangleObstacle;
 
 
 public class Player extends Image {
 
     private Vector2 playerPosition;
-
     private Vector2 playerSize;
     private Rectangle playerBounds;
     private boolean isColliding;
-    private boolean canJump;
     private Texture playerTexture;
     private Texture jumpTexture;
     private String playerTexturePath;
     private Drawable drawableRegion;
     private Vector2 velocity;
     private Vector2 acceleration;
+
     public Player(String playerTexture, Vector2 position, Vector2 size){
         super(new Texture(Gdx.files.internal(playerTexture)));
         this.playerTexture = new Texture(Gdx.files.internal(playerTexture));
@@ -33,11 +31,9 @@ public class Player extends Image {
 
         this.playerTexturePath = playerTexture;
         isColliding = false;
-        canJump = true;
         playerPosition = position;
         playerSize = size;
-        velocity = new Vector2();
-        acceleration = new Vector2(0, -1000);
+
         playerBounds = new Rectangle(position.x, position.y, size.x, size.y);
         setBounds(position.x, position.y, size.x, size.y);
 
@@ -56,6 +52,10 @@ public class Player extends Image {
         }
     }
 
+    public Rectangle getPlayerBounds() {
+        return playerBounds;
+    }
+
     public boolean collidesWith(Player rect){
         Rectangle otherBounds = rect.getBounds();
         if(playerBounds.overlaps(otherBounds)){
@@ -69,7 +69,6 @@ public class Player extends Image {
         isColliding = false;
         return false;
     }
-
     public boolean collidesWith(RectangleObstacle rect){
         Rectangle otherBounds = rect.getBounds();
         if(playerBounds.overlaps(otherBounds)){
@@ -84,30 +83,23 @@ public class Player extends Image {
         return false;
     }
 
+
     private Rectangle getBounds() {
         return playerBounds;
     }
 
     public void onCollision(){
         isColliding = true;
-//        drawableRegion = new TextureRegionDrawable(new TextureRegion(jumpTexture));
-//        super.setDrawable(drawableRegion);
+        drawableRegion = new TextureRegionDrawable(new TextureRegion(jumpTexture));
+        super.setDrawable(drawableRegion);
     }
 
-    public void update(){
+    public void update()
+    {
         float dt = Gdx.graphics.getDeltaTime();
         velocity.add(acceleration.x * dt, acceleration.y * dt);
-        if(!isColliding)
-           moveBy(velocity.x * dt, velocity.y *dt);
-//        if(isColliding)
-//            moveBy(0,200);
+        
     }
 
-    public void jump(){
-        velocity.y = 500;
-    }
 
-    public Vector2 getPlayerPosition() {
-        return playerPosition;
-    }
 }

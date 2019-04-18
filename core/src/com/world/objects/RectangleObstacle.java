@@ -47,8 +47,6 @@ public class RectangleObstacle extends Image implements WorldObject {
                 moveBy(x - getWidth()/2, y - getHeight()/2);
             }
         });
-
-        System.out.println("Rectangle created.");
     }
 
     @Override
@@ -68,12 +66,8 @@ public class RectangleObstacle extends Image implements WorldObject {
         return bounds;
     }
 
-    public String getFileName(){
-        return fileName;
-    }
-
-    public boolean collidesWith(RectangleObstacle rect){
-        Rectangle otherBounds = rect.getBounds();
+    public boolean collidesWith(WorldObject obj){
+        Rectangle otherBounds = obj.getBounds();
         if(bounds.overlaps(otherBounds)){
             return true;
         }

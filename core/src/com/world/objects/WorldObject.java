@@ -1,5 +1,9 @@
 package com.world.objects;
 
+import com.badlogic.gdx.math.Rectangle;
+
 public interface WorldObject {
-    public void onCollision();
+    void onCollision();
+    boolean collidesWith(WorldObject obj);
+    Rectangle getBounds();
 }

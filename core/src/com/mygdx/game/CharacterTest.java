@@ -14,8 +14,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.logic.common.InputController;
 import com.logic.constructor.common.Movements;
-import com.world.objects.RectangleObstacle;
-
+import com.world.obstacle.RectangleObstacle;
 import com.world.player.Player;
 
 
@@ -28,7 +27,6 @@ public class CharacterTest extends ApplicationAdapter {
     private Player player1;
     private Player rect;
     private RectangleObstacle rect2;
-    private RectangleObstacle rect3;
 
     public CharacterTest() {
     }
@@ -52,22 +50,14 @@ public class CharacterTest extends ApplicationAdapter {
         rect2 = new RectangleObstacle("badlogic.jpg",
                 new Vector2(0, 0), new Vector2(100, 75));
 
-        rect3 = new RectangleObstacle("badlogic.jpg",
-                new Vector2(100, 0), new Vector2(100, 75));
-
         stage.addActor(rect);
         stage.addActor(rect2);
-        stage.addActor(rect3);
 
         Gdx.input.setInputProcessor(new InputController(){
             @Override
             public boolean keyDown(int keycode){
                 if(keycode == Input.Keys.Q) {
                     rect.onCollision();
-                }
-                if(keycode == Input.Keys.W){
-                    player1.jump();
-                    return false;
                 }
                 return true;
             }
@@ -84,26 +74,36 @@ public class CharacterTest extends ApplicationAdapter {
 
     @Override
     public void render () {
+        float scaleFactor = (float) 0.25;
+        float dt = Gdx.graphics.getDeltaTime();
+
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        /*if (Gdx.input.isKeyPressed(Input.Keys.W) && !moveTest.isJumping()) {
+            moveTest.jump();
+            pressOnce = false;
+            player1.moveBy(0,5);
+        }*/
+        if(Gdx.input.isKeyPressed(Input.Keys.W)){
+            player1.moveBy(0,5);
+        }
         if(Gdx.input.isKeyPressed(Input.Keys.S)){
             player1.moveBy(0,-5);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.D)) {
+//            moveTest.moveRight();
+//            player1.moveBy(5,0);
             player1.moveBy(5,0);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.A)) {
+//            moveTest.moveLeft();
             player1.moveBy(-5,0);
         }
 
-        if(player1.collidesWith(rect) || player1.collidesWith(rect2 )|| player1.collidesWith(rect3)){
+        if(player1.collidesWith(rect) || player1.collidesWith(rect2)){
             player1.onCollision();
-            player1.moveBy(0, rect2.getHeight());
         }
 
-
-
-        player1.update();
         stage.act();
         stage.draw();
         batch.begin();
