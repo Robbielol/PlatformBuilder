@@ -80,10 +80,6 @@ public class Player extends Image {
             floor = rect.getHeight();
             return true;
         }
-        if(isColliding){
-            drawableRegion = new TextureRegionDrawable(new TextureRegion(playerTexture));
-            super.setDrawable(drawableRegion);
-        }
         floor = 0;
         isColliding = false;
         return false;
@@ -104,17 +100,21 @@ public class Player extends Image {
         dt = Gdx.graphics.getDeltaTime();
         velocity.add(acceleration.x * dt, acceleration.y * dt);
         moveBy(velocity.x * dt, velocity.y * dt);
-        if(getY() <= floor + 5){
+        if(playerBounds.y <= floor + 10){
             drawableRegion = new TextureRegionDrawable(new Texture(playerTexturePath));
             super.setDrawable(drawableRegion);
+        } else{
+            drawableRegion = new TextureRegionDrawable(jumpTexture);
+            super.setDrawable(drawableRegion);
         }
-
-        System.out.println(getY());
+        System.out.println(playerBounds.getY());
     }
 
     public void jump(){
-        velocity.y = 300;
-        drawableRegion = new TextureRegionDrawable(jumpTexture);
-        super.setDrawable(drawableRegion);
+        if(playerBounds.y < floor + 10) {
+            velocity.y = 500;
+            drawableRegion = new TextureRegionDrawable(jumpTexture);
+            super.setDrawable(drawableRegion);
+        }
     }
 }
