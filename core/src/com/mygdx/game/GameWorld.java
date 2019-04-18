@@ -11,8 +11,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.logic.common.InputController;
-import com.logic.constructor.common.Movements;
+import com.logic.controller.InputController;
+import com.logic.command.Movements;
 import com.world.player.Player;
 
 public class GameWorld implements Screen {

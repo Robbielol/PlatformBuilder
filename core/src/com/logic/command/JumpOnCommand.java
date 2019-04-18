@@ -1,10 +1,8 @@
-package com.logic.constructor.common;
+package com.logic.command;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.logic.constructor.common.Command;
-import com.mygdx.game.CharacterTest;
 
 public class JumpOnCommand implements Command {
 

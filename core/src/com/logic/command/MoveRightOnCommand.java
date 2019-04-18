@@ -1,8 +1,7 @@
-package com.logic.constructor.common;
+package com.logic.command;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.logic.constructor.common.Command;
 
 public class MoveRightOnCommand implements Command
 {

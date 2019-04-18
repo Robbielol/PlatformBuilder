@@ -57,12 +57,15 @@ public class Player extends Image {
         return playerBounds;
     }
 
-    public boolean collidesWith(Player rect){
+    public boolean collidesWith(Player rect)
+    {
         Rectangle otherBounds = rect.getBounds();
-        if(playerBounds.overlaps(otherBounds)){
+        if(playerBounds.overlaps(otherBounds))
+        {
             return true;
         }
-        if(isColliding){
+        if(isColliding)
+        {
             drawableRegion = new TextureRegionDrawable(new TextureRegion(playerTexture));
             super.setDrawable(drawableRegion);
         }
