@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.world.player.Player;
 
 public class Movements {
 
@@ -22,7 +23,7 @@ public class Movements {
     private MoveRightOnCommand moveRight;
     private MoveLeftOnCommand moveLeft;
     private JumpOnCommand jump;
-
+    private Player playerObject;
     private TextureRegion player;
 
     public Movements(TextureRegion player) {
@@ -35,6 +36,7 @@ public class Movements {
         float gravity = -1000;
         acceleration = new Vector2(0, gravity);
     }
+
 
     public void update()
     {
