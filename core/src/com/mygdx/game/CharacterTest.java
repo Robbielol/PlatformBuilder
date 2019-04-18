@@ -8,8 +8,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.logic.common.InputController;
-import com.logic.constructor.common.Movements;
+
+
+import com.logic.command.Movements;
+import com.logic.controller.InputController;
 import com.world.objects.RectangleObstacle;
 import com.world.player.Player;
 

@@ -24,6 +24,9 @@ public class Player extends Image {
     private Vector2 velocity;
     private Vector2 acceleration;
     private float dt;
+    private float floor = 0;
+
+
     public Player(String playerTexture, Vector2 position, Vector2 size){
         super(new Texture(Gdx.files.internal(playerTexture)));
         this.playerTexture = new Texture(Gdx.files.internal(playerTexture));
@@ -47,7 +50,7 @@ public class Player extends Image {
             playerBounds.x += x;
         }
 
-        if(getY()+y >= 0 & getY()+y <= 600) {
+        if(getY()+y >= floor & getY()+y <= 600) {
             setY(getY() + y);
             playerBounds.y += y;
         }
@@ -60,12 +63,10 @@ public class Player extends Image {
     public boolean collidesWith(Player rect)
     {
         Rectangle otherBounds = rect.getBounds();
-        if(playerBounds.overlaps(otherBounds))
-        {
+        if(playerBounds.overlaps(otherBounds)) {
             return true;
         }
-        if(isColliding)
-        {
+        if(isColliding) {
             drawableRegion = new TextureRegionDrawable(new TextureRegion(playerTexture));
             super.setDrawable(drawableRegion);
         }
@@ -76,13 +77,14 @@ public class Player extends Image {
     public boolean collidesWith(RectangleObstacle rect){
         Rectangle otherBounds = rect.getBounds();
         if(playerBounds.overlaps(otherBounds)){
-//            moveBy(0,rect.getHeight() + 20);
+            floor = rect.getHeight();
             return true;
         }
         if(isColliding){
-//            drawableRegion = new TextureRegionDrawable(new TextureRegion(playerTexture));
-//            super.setDrawable(drawableRegion);
+            drawableRegion = new TextureRegionDrawable(new TextureRegion(playerTexture));
+            super.setDrawable(drawableRegion);
         }
+        floor = 0;
         isColliding = false;
         return false;
     }
@@ -100,34 +102,19 @@ public class Player extends Image {
 
     public void update() {
         dt = Gdx.graphics.getDeltaTime();
-
         velocity.add(acceleration.x * dt, acceleration.y * dt);
-//        if(!isColliding)
-//        else {
-//
-//            System.out.println("Moved to 0,0");
-////            isColliding = false;
-//        }
-        if(isColliding){
-//            velocity.add(0,0);
-//            dt = 0;
-//            moveBy(velocity.x * dt, velocity.y * dt);
-            System.out.println("Here");
-//            velocity.y = 0;
-
-            moveBy(0, 0);
-
-        } else {
-            moveBy(velocity.x * dt, velocity.y * dt);
-
+        moveBy(velocity.x * dt, velocity.y * dt);
+        if(getY() <= floor + 5){
+            drawableRegion = new TextureRegionDrawable(new Texture(playerTexturePath));
+            super.setDrawable(drawableRegion);
         }
+
+        System.out.println(getY());
     }
 
     public void jump(){
         velocity.y = 300;
-        if(isColliding){
-//            velocity.y = 500;
-//            System.out.println("Cannot jump");
-        }
+        drawableRegion = new TextureRegionDrawable(jumpTexture);
+        super.setDrawable(drawableRegion);
     }
 }
