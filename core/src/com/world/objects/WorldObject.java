@@ -1,9 +1,10 @@
 package com.world.objects;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
-public interface WorldObject {
-    void onCollision();
-    boolean collidesWith(WorldObject obj);
-    Rectangle getBounds();
+public abstract class WorldObject extends Image{
+    abstract void onCollision();
+    abstract boolean collidesWith(WorldObject obj);
+    abstract Rectangle getBounds();
 }
