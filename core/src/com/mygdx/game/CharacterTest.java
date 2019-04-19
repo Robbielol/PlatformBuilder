@@ -23,8 +23,8 @@ public class CharacterTest extends ApplicationAdapter {
     private Movements moveTest;
     private Stage stage;
     private Player player1;
-    private Player rect;
-    private RectangleObstacle rect2;
+    private Player playerRect;
+    private RectangleObstacle rectangleObstacle;
 
     public CharacterTest() {
     }
@@ -34,28 +34,26 @@ public class CharacterTest extends ApplicationAdapter {
         batch = new SpriteBatch();
         background = new Texture("glassy/raw/white.png");
 
-        player1 = new Player("sprites/CharSprite.png",new Vector2(700,0), new Vector2(100,75));
-
+        player1 = new Player("sprites/CharSprite.png",new Vector2(0,0), new Vector2(100,75));
 
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
-
         stage.addActor(player1);
 
-        rect = new Player("sprites/CharSprite.png",
-                new Vector2(500, 0), new Vector2(100, 75));
+        playerRect = new Player("sprites/CharSprite.png",
+                new Vector2(700, 0), new Vector2(100, 75));
 
-        rect2 = new RectangleObstacle("badlogic.jpg",
-                new Vector2(0, 0), new Vector2(100, 75));
+        rectangleObstacle = new RectangleObstacle("badlogic.jpg",
+                new Vector2(300, 0), new Vector2(100, 75));
 
-        stage.addActor(rect);
-        stage.addActor(rect2);
+        stage.addActor(playerRect);
+        stage.addActor(rectangleObstacle);
 
         Gdx.input.setInputProcessor(new InputController(){
             @Override
             public boolean keyDown(int keycode){
                 if(keycode == Input.Keys.Q) {
-                    rect.onCollision();
+                    playerRect.onCollision();
                 }
                 return true;
             }
@@ -77,19 +75,19 @@ public class CharacterTest extends ApplicationAdapter {
 
         if(Gdx.input.isKeyPressed(Input.Keys.W)){
 //            player1.moveBy(0,5);
+//            player1;
             player1.jump();
         }
-//        if(Gdx.input.isKeyPressed(Input.Keys.S)){
-//            player1.moveBy(0,-5);
-//        }
         if(Gdx.input.isKeyPressed(Input.Keys.D)) {
-            player1.moveBy(5,0);
+            if(!player1.isBlockedRight())
+                player1.moveBy(5,0);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.A)) {
-            player1.moveBy(-5,0);
+            if(!player1.isBlockedLeft())
+                player1.moveBy(-5,0);
         }
 
-        if(player1.collidesWith(rect) || player1.collidesWith(rect2)){
+        if(player1.collidesWith(playerRect) || player1.collidesWith(rectangleObstacle)){
             player1.onCollision();
         }
 
