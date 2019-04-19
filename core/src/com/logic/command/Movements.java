@@ -21,9 +21,9 @@ public class Movements {
     private Vector2 velocity;
 
     private Vector2 acceleration;
-    private MoveRightOnCommand moveRight;
-    private MoveLeftOnCommand moveLeft;
-    private JumpOnCommand jump;
+    private Command moveRight;
+    private Command moveLeft;
+    private Command jump;
     private Rectangle bounds;
 
     public Movements(Vector2 playerPos, Rectangle playerBounds){
