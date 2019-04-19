@@ -5,7 +5,7 @@ import com.world.objects.Coin;
 import com.world.objects.CoinBox;
 import com.world.objects.WorldObject;
 
-public class CoinFactory extends ObstacleFactory {
+public class CoinFactory extends ObjectFactory {
     public WorldObject getObject(String obj){
         if (obj.equals("Coin")) return new Coin(new Vector2(100,100));
         else return new CoinBox(new Vector2(100,100));

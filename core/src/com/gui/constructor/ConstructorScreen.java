@@ -19,6 +19,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.logic.constructor.CoinFactory;
+import com.logic.constructor.FactoryProducer;
+import com.logic.constructor.ObjectFactory;
 import com.mygdx.game.PlatformBuilder;
 import com.world.objects.RectangleObstacle;
 import com.world.objects.WorldObject;
@@ -40,7 +42,8 @@ public class ConstructorScreen implements Screen {
     private float sinceChange;
     private long lastTimeCounted;
     private Array<WorldObject> obstacleArray;
-    private CoinFactory cf;
+    private ObjectFactory obj;
+
 
     public ConstructorScreen(PlatformBuilder game){
         this.game = game;
@@ -113,8 +116,10 @@ public class ConstructorScreen implements Screen {
 
             @Override
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                final RectangleObstacle rect = new RectangleObstacle("badlogic.jpg",
-                        new Vector2(50, 50), new Vector2(75, 75));
+                obj = FactoryProducer.getFactory(false);
+                final WorldObject rect = obj.getObject("Rectangle");
+                /*final RectangleObstacle rect = new RectangleObstacle("badlogic.jpg",
+                        new Vector2(50, 50), new Vector2(75, 75));*/
 
                 stage.addActor(rect);
                 obstacleArray.add(rect);
@@ -130,7 +135,8 @@ public class ConstructorScreen implements Screen {
 
             @Override
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                final WorldObject coin = cf.getObject("Coin");
+                obj = FactoryProducer.getFactory(true);
+                final WorldObject coin = obj.getObject("Coin");
 
                 stage.addActor(coin);
                 obstacleArray.add(coin);
@@ -146,7 +152,8 @@ public class ConstructorScreen implements Screen {
 
             @Override
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                final WorldObject box = cf.getObject("CB");
+                obj = FactoryProducer.getFactory(true);
+                final WorldObject box = obj.getObject("CB");
 
                 stage.addActor(box);
                 obstacleArray.add(box);
