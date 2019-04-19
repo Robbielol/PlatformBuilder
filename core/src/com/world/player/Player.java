@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.logic.command.Movements;
 import com.world.objects.RectangleObstacle;
 
 
@@ -19,6 +20,7 @@ public class Player extends Image {
     private boolean isColliding;
     private Texture playerTexture;
     private Texture jumpTexture;
+    private Movements move;
     private String playerTexturePath;
     private Drawable drawableRegion;
     private Vector2 velocity;
@@ -31,7 +33,6 @@ public class Player extends Image {
         super(new Texture(Gdx.files.internal(playerTexture)));
         this.playerTexture = new Texture(Gdx.files.internal(playerTexture));
         this.jumpTexture = new Texture("sprites/Jumping.png");
-
         this.playerTexturePath = playerTexture;
         isColliding = false;
         playerPosition = position;
@@ -39,15 +40,25 @@ public class Player extends Image {
         velocity = new Vector2();
         acceleration = new Vector2(0, -1000);
         playerBounds = new Rectangle(position.x, position.y, size.x, size.y);
+        move = new Movements(position, playerBounds);
         setBounds(position.x, position.y, size.x, size.y);
 
     }
 
     @Override
     public void moveBy(float x, float y){
-        if(getX()+x >= 0 & getX()+x <= 900) {
+        /*if(getX()+x >= 0 & getX()+x <= 900) {
             setX(getX() + x);
             playerBounds.x += x;
+        }*/
+        if(getX()+x >= 0 & getX()+x <= 900) {
+            if(x == -5){
+                move.moveLeft();
+            }else if(x == 5){
+                move.moveRight();
+            }
+            setX(move.getPosition().x + x);
+            playerBounds.x = move.getBounds().x + x;
         }
 
         if(getY()+y >= floor & getY()+y <= 600) {
@@ -56,7 +67,7 @@ public class Player extends Image {
         }
     }
 
-    public Rectangle getPlayerBounds() {
+    public Rectangle getPlayerBounds(){
         return playerBounds;
     }
 
@@ -112,7 +123,8 @@ public class Player extends Image {
 
     public void jump(){
         if(playerBounds.y < floor + 10) {
-            velocity.y = 500;
+            move.jump();
+            velocity.y = move.getVelocity().y;
             drawableRegion = new TextureRegionDrawable(jumpTexture);
             super.setDrawable(drawableRegion);
         }

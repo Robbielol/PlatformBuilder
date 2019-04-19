@@ -2,47 +2,43 @@ package com.logic.command;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class JumpOnCommand implements Command {
 
     private final Vector2 velocity = new Vector2();
-
+    private Vector2 position;
+    private Rectangle bounds;
     private float jumpHeight = 500;
 
-    private TextureRegion player;
 
-    public JumpOnCommand(TextureRegion player)
+    public JumpOnCommand(Vector2 playerPos, Rectangle playerBounds)
     {
-        this.player = player;
+        position = playerPos;
+        bounds = playerBounds;
     }
     public void executeMovement(float pos, boolean orientation)
     {
-        player.setTexture(new Texture("sprites/Jumping.png"));
         velocity.y = jumpHeight;
     }
 
-    @Override
-    public void setPlayer(TextureRegion player)
-    {
-        this.player = player;
+    public float getPosition(){
+        return position.y;
     }
 
-    @Override
-    public void getOrientation(Boolean isJumping)
-    {
-    }
+    public float getPlayerBounds(){return bounds.y; }
 
-    public float getVelocity()
-    {
-        return velocity.y;
+    public Vector2 getVelocity(){
+        return velocity;
     }
-
-    public void setJumpHeight(float jumpHeight) {
+   /* public void setJumpHeight(float jumpHeight) {
         this.jumpHeight = jumpHeight;
-    }
+    }*/
 
+/*
     public float getJumpHeight() {
         return jumpHeight;
     }
+*/
 }

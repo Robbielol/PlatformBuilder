@@ -1,38 +1,29 @@
 package com.logic.command;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 
 public class MoveLeftOnCommand implements Command {
-    private final Vector2 position = new Vector2();
-    private TextureRegion player;
+    private Vector2 position;
+    private Rectangle bounds;
 
-    public MoveLeftOnCommand(TextureRegion player)
+    public MoveLeftOnCommand(Vector2 playerPos, Rectangle playerBounds)
     {
-        this.player = player;
+        this.position = playerPos;
+        bounds = playerBounds;
     }
 
     public void executeMovement(float pos, boolean orientation)
     {
         position.x = (pos-5);
-        player.flip(orientation,false);
-        player.flip(false,false);
     }
 
-    @Override
-    public void setPlayer(TextureRegion player)
-    {
-        this.player = player;
-    }
-
-    @Override
-    public void getOrientation(Boolean orientation)
-    {
-
-    }
 
     public float getPosition(){
         return position.x;
     }
+
+    public float getPlayerBounds(){return bounds.x; }
 }

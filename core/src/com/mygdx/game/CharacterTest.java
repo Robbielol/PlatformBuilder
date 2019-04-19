@@ -93,9 +93,7 @@ public class CharacterTest extends ApplicationAdapter {
             player1.onCollision();
         }
 
-
         player1.update();
-
         stage.act();
         stage.draw();
         batch.begin();

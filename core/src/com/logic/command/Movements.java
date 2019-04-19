@@ -3,6 +3,7 @@ package com.logic.command;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.world.player.Player;
 
@@ -23,18 +24,16 @@ public class Movements {
     private MoveRightOnCommand moveRight;
     private MoveLeftOnCommand moveLeft;
     private JumpOnCommand jump;
-    private Player playerObject;
-    private TextureRegion player;
+    private Rectangle bounds;
 
-    public Movements(TextureRegion player)
-    {
-        this.player = player;
-        position = new Vector2();
+    public Movements(Vector2 playerPos, Rectangle playerBounds){
+        position = playerPos;
+        bounds = playerBounds;
         velocity = new Vector2();
-        moveRight = new MoveRightOnCommand(player);
-        moveLeft = new MoveLeftOnCommand(player);
-        jump = new JumpOnCommand(player);
         float gravity = -1000;
+        moveRight = new MoveRightOnCommand(playerPos, playerBounds);
+        moveLeft = new MoveLeftOnCommand(playerPos, playerBounds);
+        jump = new JumpOnCommand(playerPos, playerBounds);
         acceleration = new Vector2(0, gravity);
     }
 
@@ -48,25 +47,26 @@ public class Movements {
         if (position.y <= 0){ // hit ground, so bounce
             position.y = 0;
             isJumping = false;
-            player.setTexture(new Texture("sprites/CharSprite.png"));
-            if(powerUpUsed){
+            /*if(powerUpUsed){
                 jump.setJumpHeight(500);
-            }
+            }*/
         }
         if ((position.x <= 0)){
             position.x = 0;
         }
-        if (position.x >= Gdx.graphics.getWidth() - player.getRegionWidth()/2){
+/*        if (position.x >= Gdx.graphics.getWidth() - player.getRegionWidth()/2){
             position.x = Gdx.graphics.getWidth() - player.getRegionWidth()/2;
-        }
+        }*/
 
     }
 
     public void jump() {
         jump.executeMovement(position.x, orientation);
-        velocity.y = jump.getVelocity();
         isJumping = true;
         powerUpUsed = true;
+        position.y = jump.getPosition();
+        bounds.y = jump.getPlayerBounds();
+        velocity = jump.getVelocity();
     }
 
     public void moveRight()
@@ -74,39 +74,34 @@ public class Movements {
         moveRight.executeMovement(position.x, orientation);
         orientation = true;
         position.x = moveRight.getPosition();
+        bounds.x = moveRight.getPlayerBounds();
     }
 
     public void moveLeft() {
         moveLeft.executeMovement(position.x, orientation);
         orientation = false;
         position.x = moveLeft.getPosition();
-    }
-
-    public TextureRegion getPlayer() {
-        return player;
+        bounds.x = moveLeft.getPlayerBounds();
     }
 
     public Vector2 getPosition() {
         return position;
     }
 
-    public boolean isJumping() {
+    public Rectangle getBounds() { return bounds; }
+
+    public Vector2 getVelocity(){
+        return  velocity;
+    }
+    /*public boolean isJumping() {
         return isJumping;
-    }
+    }*/
 
-    public void increaseJumpHeight(float jumpHeight) {
-        jump.setJumpHeight(jumpHeight);
-    }
-
-    public float getGravity() {
-        return gravity;
-    }
-
-    public float getJumpHeight(){
+    /*public float getJumpHeight(){
         return jump.getJumpHeight();
-    }
+    }*/
 
-    public void setPowerUpUsed(boolean powerUpUsed) {
+   /* public void setPowerUpUsed(boolean powerUpUsed) {
         this.powerUpUsed = powerUpUsed;
-    }
+    }*/
 }
