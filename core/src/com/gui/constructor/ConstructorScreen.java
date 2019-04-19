@@ -34,6 +34,7 @@ public class ConstructorScreen implements Screen {
     private Stage stage;
     private Table table;
     private TextButton rectButton;
+    private TextButton squareButton;
     private TextButton coinButton;
     private TextButton coinBoxButton;
     private TextureAtlas buttonAtlas;
@@ -64,6 +65,14 @@ public class ConstructorScreen implements Screen {
         framesLabel.setPosition(Gdx.graphics.getWidth()/50, Gdx.graphics.getHeight()-20);
 
         // Buttons
+        TextButton.TextButtonStyle squareButtonStyle = new TextButton.TextButtonStyle();
+        squareButtonStyle.up = skin.getDrawable("button");
+        squareButtonStyle.down = skin.getDrawable("button-pressed");
+        squareButtonStyle.font = new BitmapFont(Gdx.files.internal("quantum/skin/font-export.fnt"));
+        squareButton = new TextButton("Square", squareButtonStyle);
+        squareButton.setTransform(true);
+        squareButton.setColor(new Color(4555));
+
         TextButton.TextButtonStyle rectButtonStyle = new TextButton.TextButtonStyle();
         rectButtonStyle.up = skin.getDrawable("button");
         rectButtonStyle.down = skin.getDrawable("button-pressed");
@@ -92,6 +101,8 @@ public class ConstructorScreen implements Screen {
         table = new Table();
         table.add(rectButton).left();
         table.row();
+        table.add(squareButton).left();
+        table.row();
         table.add(coinButton).left();
         table.row();
         table.add(coinBoxButton).left();
@@ -118,6 +129,26 @@ public class ConstructorScreen implements Screen {
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 obj = FactoryProducer.getFactory(false);
                 final WorldObject rect = obj.getObject("Rectangle");
+                /*final RectangleObstacle rect = new RectangleObstacle("badlogic.jpg",
+                        new Vector2(50, 50), new Vector2(75, 75));*/
+
+                stage.addActor(rect);
+                obstacleArray.add(rect);
+            }
+        });
+
+        // Listeners
+        squareButton.addListener(new ClickListener(){
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+
+            @Override
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                obj = FactoryProducer.getFactory(false);
+                final WorldObject rect = obj.getObject("Square");
                 /*final RectangleObstacle rect = new RectangleObstacle("badlogic.jpg",
                         new Vector2(50, 50), new Vector2(75, 75));*/
 
