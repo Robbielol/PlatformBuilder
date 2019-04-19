@@ -2,7 +2,7 @@ package com.world.objects;
 
 import com.badlogic.gdx.math.Rectangle;
 
-public class Square implements WorldObject {
+public class Square extends WorldObject {
     public void onCollision(){
         System.out.println("Using Square obstacles draw method");
     }

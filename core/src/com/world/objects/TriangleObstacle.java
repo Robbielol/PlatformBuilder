@@ -2,7 +2,7 @@ package com.world.objects;
 
 import com.badlogic.gdx.math.Rectangle;
 
-public class TriangleObstacle implements WorldObject {
+public class TriangleObstacle extends WorldObject {
     public void onCollision(){
         System.out.println("Using Triangle objects draw method");
     }

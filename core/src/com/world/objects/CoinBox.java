@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 
 import java.util.ArrayList;
 
-public class CoinBox extends Image implements WorldObject, ScoreObject{
+public class CoinBox extends WorldObject implements ScoreObject{
 
     private ArrayList<Coin> coins;
     private Rectangle bounds;

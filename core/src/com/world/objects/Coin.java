@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 
 import java.util.Random;
 
-public class Coin extends Image implements WorldObject, ScoreObject {
+public class Coin extends WorldObject implements ScoreObject {
 
     private int score;
     private Vector2 position;
