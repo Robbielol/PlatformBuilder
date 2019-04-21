@@ -51,7 +51,7 @@ public class Player extends Image {
         playerBounds = new Rectangle(position.x, position.y, size.x, size.y);
         setBounds(position.x, position.y, size.x, size.y);
 
-        playerMovements = new Movements(playerPosition,playerBounds);
+        playerMovements = new Movements(playerPosition,playerBounds, 500 );//add jump
     }
 
     @Override

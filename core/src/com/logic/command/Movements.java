@@ -26,14 +26,14 @@ public class Movements {
     private Command jump;
     private Rectangle bounds;
 
-    public Movements(Vector2 playerPos, Rectangle playerBounds){
+    public Movements(Vector2 playerPos, Rectangle playerBounds, float jumpHeight){
         position = playerPos;
         bounds = playerBounds;
         velocity = new Vector2();
         float gravity = -1000;
         moveRight = new MoveRightOnCommand(playerPos, playerBounds);
         moveLeft = new MoveLeftOnCommand(playerPos, playerBounds);
-        jump = new JumpOnCommand(playerPos, playerBounds);
+        jump = new JumpOnCommand(playerPos, playerBounds, jumpHeight);
         acceleration = new Vector2(0, gravity);
     }
 
